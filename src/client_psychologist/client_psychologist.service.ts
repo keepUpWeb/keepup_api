@@ -22,7 +22,7 @@ export class ClientPsychologistService {
 
     @Inject(PyschologyService)
     private readonly pyschologyService: PyschologyService,
-  ) { }
+  ) {}
 
   async createOnRegisterUser(
     user: User,
@@ -52,13 +52,12 @@ export class ClientPsychologistService {
   }
 
   async findAll() {
-
     const data = await this.clientPsycholgistRepository.find({
       relations: ['client'],
     });
 
     if (!data || data.length === 0) {
-      throw new NotFoundException('You do not have any clients as a psychologist');
+      return data;
     }
 
     // Adding the contact URL with dynamic subject inside the client object
@@ -92,7 +91,7 @@ export class ClientPsychologistService {
     });
 
     if (!data || data.length === 0) {
-      throw new NotFoundException('You do not have any clients as a psychologist');
+      return data;
     }
 
     // Adding the contact URL with dynamic subject inside the client object
@@ -106,5 +105,4 @@ export class ClientPsychologistService {
 
     return dataFinalClientPsikolog;
   }
-
 }
