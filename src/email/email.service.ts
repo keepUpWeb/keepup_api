@@ -36,7 +36,7 @@ export class EmailService {
       confirmationLink,
     );
 
-    await this.sendEmail(email, 'Confirm Your Email - Emind', emailContent);
+    await this.sendEmail(email, 'Confirm Your Email - KeepUp', emailContent);
   }
 
   async sendEmail(to: string, subject: string, htmlContent: string) {
