@@ -58,18 +58,29 @@ export class SubKuisionerService {
     }
 
     for (const question of payload.questions) {
+      // Preprocess answers once
+      const normalizedAnswers = question.answers.map((a) => ({
+        ...a,
+        normalized: a.answer.toLowerCase().trim(),
+      }));
+
       for (const orderMap of this.ORDER_MAPS) {
-        const normalizedMap = orderMap.map((ans) => ans.toLowerCase());
-        const isMatch = question.answers.every((a) =>
-          normalizedMap.includes(a.answer.toLowerCase()),
+        const normalizedMap = orderMap.map((ans) => ans.toLowerCase().trim());
+        const mapSet = new Set(normalizedMap);
+
+        // Check if all answers exist in the current map
+        const isMatch = normalizedAnswers.every((a) =>
+          mapSet.has(a.normalized),
         );
+
         if (isMatch) {
-          question.answers.sort(
-            (a, b) =>
-              normalizedMap.indexOf(a.answer.toLowerCase()) -
-              normalizedMap.indexOf(b.answer.toLowerCase()),
-          );
-          break;
+          // Sort using normalized order
+          question.answers.sort((a, b) => {
+            const aIndex = normalizedMap.indexOf(a.answer.toLowerCase().trim());
+            const bIndex = normalizedMap.indexOf(b.answer.toLowerCase().trim());
+            return aIndex - bIndex;
+          });
+          break; // Break after first match
         }
       }
     }
