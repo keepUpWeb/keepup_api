@@ -9,7 +9,7 @@ export class PersonalPDFReportGenerator extends PDFReportGenerator {
             .fill('#004b93')
             .fillColor('#ffffff')
             .fontSize(20)
-            .text('Laporan Assesment Kesehatan Mental', 50, 15, { align: 'center' })
+            .text('Laporan Skrining Kesehatan Mental', 50, 15, { align: 'center' })
             .fillColor('#000000') // Reset fill color
             .moveDown(2);
 
