@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['https://greatly-free-oriole.ngrok-free.app', 'https://husky-coherent-legally.ngrok-free.app','http://localhost:5500',"https://keepupadmin.vercel.app","http://localhost:32523","https://keepup-user.vercel.app"], // Specific domain (or '*' for all)
+    origin: ["https://keepup.id","https://admin.keepup.id","https://keepupadmin.vercel.app","http://localhost:32523","https://keepup-user.vercel.app"], // Specific domain (or '*' for all)
     credentials: true,
   });
 
