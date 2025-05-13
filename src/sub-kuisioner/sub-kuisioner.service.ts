@@ -21,7 +21,7 @@ export class SubKuisionerService {
 
     @InjectRepository(SubKuisioner)
     private subKuisionerRepository: Repository<SubKuisioner>,
-  ) { }
+  ) {}
 
   async create(
     kuisionerId: string,
@@ -44,17 +44,34 @@ export class SubKuisionerService {
   }
 
   async findOne(subKuisionerId: string): Promise<SubKuisioner> {
-    const payload = await this.subKuisionerRepository.createQueryBuilder('subKuisioner')
+    const payload = await this.subKuisionerRepository
+      .createQueryBuilder('subKuisioner')
       .leftJoinAndSelect('subKuisioner.symtompId', 'symtompId')
       .leftJoinAndSelect('subKuisioner.questions', 'questions')
       .leftJoinAndSelect('questions.answers', 'answers')
       .where('subKuisioner.id = :subKuisionerId', { subKuisionerId })
-      .orderBy('questions.createdAt', 'DESC')  // Order the questions by createdAt
-      .addOrderBy('answers.score','DESC')
+      .orderBy('questions.createdAt', 'DESC') // Order the questions by createdAt
       .getOne();
 
     if (!payload) {
       throw new NotFoundException('Sub Kuisioner Not Found');
+    }
+
+    for (const question of payload.questions) {
+      for (const orderMap of this.ORDER_MAPS) {
+        const normalizedMap = orderMap.map((ans) => ans.toLowerCase());
+        const isMatch = question.answers.every((a) =>
+          normalizedMap.includes(a.answer.toLowerCase()),
+        );
+        if (isMatch) {
+          question.answers.sort(
+            (a, b) =>
+              normalizedMap.indexOf(a.answer.toLowerCase()) -
+              normalizedMap.indexOf(b.answer.toLowerCase()),
+          );
+          break;
+        }
+      }
     }
 
     return payload;
@@ -93,4 +110,23 @@ export class SubKuisionerService {
 
     return `SubKuisioner with ID #${id} has been removed successfully`;
   }
+
+  ORDER_MAPS = [
+    [
+      'Terjadi pada saya sangat sering atau hampir sepanjang waktu',
+      'Terjadi pada saya dalam tingkatan yang cukup sering atau sebagian besar waktu',
+      'Terjadi pada saya dalam beberapa hal, atau pada beberapa waktu',
+      'Tidak terjadi sama sekali pada saya',
+    ],
+    [
+      'Sangat Setuju',
+      'Setuju',
+      'Sedikit Setuju',
+      'Sedikit Tidak Setuju',
+      'Tidak Setuju',
+      'Sangat Tidak Setuju',
+    ],
+    ['Setuju', 'Agak Setuju', 'Netral', 'Kurang Setuju', 'Tidak Setuju'],
+    ['Sangat Setuju', 'Setuju', 'Tidak Setuju', 'Sangat Tidak Setuju'],
+  ];
 }
