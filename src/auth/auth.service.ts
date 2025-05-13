@@ -93,9 +93,9 @@ export class AuthService {
 
       // Determine roleId based on origin
       let roleId: string;
-      if (origin === 'https://keepup-user.vercel.app' || origin === 'http://localhost:32523') {
+      if (origin === 'https://keepup.id' || origin === 'http://localhost:32523') {
         roleId = ROLES.USER; // Role for greatly-free-oriole
-      } else if (origin === 'https://keepupadmin.vercel.app') {
+      } else if (origin === 'https://admin.keepup.id') {
 
         roleId = ROLES.ADMIN; // Role for husky-coherent-legally
         

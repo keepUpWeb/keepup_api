@@ -102,7 +102,7 @@ export class AuthController {
     const result = await this.authService.confirmEmail(authId, token);
 
     // If confirmation is successful, respond with success message
-    return response.redirect('https://keepup-user.vercel.app//User/login');
+    return response.redirect('https://keepup.id/User/login');
   }
 
   @Post('refresh')
