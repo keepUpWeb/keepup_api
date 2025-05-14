@@ -5,16 +5,18 @@ import { ResponseApi } from './common/response/responseApi.format';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: UserAnswerKuisionerService) {}
-
   @Get()
-  async getHello(): Promise<ResponseApi<any>> {
-    const result =
-      await this.appService.getMostSelectedAnswersGroupedBySubKuisioner();
-    return new ResponseApi(
-      HttpStatus.OK,
-      'Successfully Fetched Kuisioner History',
-      result,
-    );
+  async getHello(): Promise<{ message: string }> {
+    const banner = `
+  _   _      _ _
+ | | | | ___| | | ___
+ | |_| |/ _ \\ | |/ _ \\
+ |  _  |  __/ | | (_) |
+ |_| |_|\\___|_|_|\\___/
+
+  Muhammad Daffa Raihan | Backend Dev | Universitas Islam Indonesia
+    `;
+
+    return { message: banner };
   }
 }
