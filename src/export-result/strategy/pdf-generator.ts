@@ -23,47 +23,6 @@ export class PersonalPDFReportGenerator extends PDFReportGenerator {
             .text(`Fakultas: ${data.user.faculty.name||"test"}`)
             .moveDown(2); // Increase spacing after personal info
 
-        // Background
-
-        doc
-            .fontSize(16)
-            .fillColor('#004b93') // Blue color for section headers
-            .text('Informasi Latar Belakang', { underline: true })
-            .moveDown(1) // Add more space before content
-            .fillColor('#000000') // Reset to black for content
-            .font('Helvetica');
-
-        // Background Information Content
-        // const background = data.background;
-        // background.forEach((category: Background) => {
-        //     // Render the category header
-        //     doc
-        //         .font('Helvetica-Bold') // Bold font for category header
-        //         .fontSize(14)
-        //         .text(`${category.categoryName}:`, { indent: 20 })
-        //         .moveDown(0.5);
-
-        //     // Reset font for questions and answers
-        //     doc.font('Helvetica').fontSize(12);
-
-        //     category.preKuisionerAnswer.forEach((answer: PreKuisionerAnswer) => {
-        //         // Render question
-        //         doc
-        //             .text(`• ${answer.question}`, 80, doc.y,) // Add a bullet point for better readability
-        //             .moveDown(0.2);
-
-        //         // Render answer
-        //         doc
-        //             .font('Helvetica-Bold') // Bold font for answer
-        //             .text(`  ${answer.answer}`, 50, doc.y, { indent: 50 }) // Indent answer slightly more than the question
-        //             .font('Helvetica') // Reset font for next question
-        //             .moveDown(0.5);
-        //     });
-        //     // Extra spacing after each category
-        //     doc.moveDown(1);
-        // });
-
-
         // Results Section Header
         doc
             .fontSize(16)
